@@ -127,8 +127,6 @@ endif
 
 call plug#begin()
 " Theme & Visuals
-  " Plug 'tomasr/molokai'
-  " Plug 'altercation/vim-colors-solarized' 
   Plug 'joshdick/onedark.vim'
   Plug 'bling/vim-airline'
 " NERD
@@ -138,6 +136,7 @@ call plug#begin()
   Plug 'scrooloose/syntastic'
   Plug 'mtscout6/syntastic-local-eslint.vim'
   Plug 'valloric/youcompleteme'
+  " Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
   Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
   Plug 'sheerun/vim-polyglot'
   Plug 'joukevandermaas/vim-ember-hbs'
@@ -156,8 +155,6 @@ call plug#begin()
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
 " To Try out
-" NERDCommenter
-" VIM Surround
 call plug#end()
 
 """""""""""""""""""
@@ -197,6 +194,33 @@ map <leader>f <ESC>:Ag<CR>
 " nnoremap <silent> <c-/> :call NERDComment(0, "toggle")<CR>
 let g:NERDSpaceDelims = 1
 
+" Coc.nvim settings
+" inoremap <silent><expr> <TAB>
+      " \ pumvisible() ? "\<C-n>" :
+      " \ <SID>check_back_space() ? "\<TAB>" :
+      " \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" function! s:check_back_space() abort
+  " let col = col('.') - 1
+  " return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+
+" " Use <c-space> to trigger completion.
+" inoremap <silent><expr> <c-space> coc#refresh()
+
+" " Use K to show documentation in preview window
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" function! s:show_documentation()
+  " if (index(['vim','help'], &filetype) >= 0)
+    " execute 'h '.expand('<cword>')
+  " else
+    " call CocAction('doHover')
+  " endif
+" endfunction
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Various ViM settings
@@ -207,6 +231,10 @@ let g:NERDSpaceDelims = 1
 " Put swap files in a tmp directory instead of next to the file
 set directory=~/.vim/tmp/swap
 
+" set updatetime to higher interval (lower number)
+set updatetime=500
 
+" allow hidden buffers to exist
+" set hidden
 
 
