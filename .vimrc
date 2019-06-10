@@ -135,8 +135,8 @@ call plug#begin()
 " Linting & Code Comlpetion
   Plug 'scrooloose/syntastic'
   Plug 'mtscout6/syntastic-local-eslint.vim'
-  Plug 'valloric/youcompleteme'
-  " Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+  " Plug 'valloric/youcompleteme'
+  Plug 'neoclide/coc.nvim', {'do': './install.sh'}
   Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
   Plug 'sheerun/vim-polyglot'
   Plug 'joukevandermaas/vim-ember-hbs'
@@ -195,16 +195,16 @@ map <leader>f <ESC>:Ag<CR>
 let g:NERDSpaceDelims = 1
 
 " Coc.nvim settings
-" inoremap <silent><expr> <TAB>
-      " \ pumvisible() ? "\<C-n>" :
-      " \ <SID>check_back_space() ? "\<TAB>" :
-      " \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" function! s:check_back_space() abort
-  " let col = col('.') - 1
-  " return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 " " Use <c-space> to trigger completion.
 " inoremap <silent><expr> <c-space> coc#refresh()
@@ -231,10 +231,9 @@ let g:NERDSpaceDelims = 1
 " Put swap files in a tmp directory instead of next to the file
 set directory=~/.vim/tmp/swap
 
-" set updatetime to higher interval (lower number)
-set updatetime=500
+" set updatetime to higher interval (lower number) original is 4000
+set updatetime=300
 
 " allow hidden buffers to exist
-" set hidden
-
+set hidden
 
