@@ -3,6 +3,7 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 if [ -f $HOME/.bashrc ]; then . $HOME/.bashrc; fi
 
 alias l='ls -GFah'
+alias vi='vim'
 
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
