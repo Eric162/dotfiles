@@ -3,8 +3,13 @@ if [ -f $HOME/.profile ]; then . $HOME/.profile; fi
 if [ -f $HOME/.bashrc ]; then . $HOME/.bashrc; fi
 
 stty -ixon # don't freeze on ctrl+s
+
+# Aliases
+
 alias l='ls -GFah'
 alias vi='vim'
+alias gits="git s"
+alias gut="git"
 
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
