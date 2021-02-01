@@ -1,0 +1,8 @@
+[user]
+  name = eshirley
+  email = eshirley@linkedin.com
+[alias]
+  branch-name = "!git rev-parse --abbrev-ref HEAD"
+  publish = "!git push -u origin $(git branch-name):eshirley/$(git branch-name)"
+[push]
+  default = upstream
