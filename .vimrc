@@ -136,13 +136,15 @@ call plug#begin()
   Plug 'scrooloose/syntastic'
   Plug 'mtscout6/syntastic-local-eslint.vim'
   " Plug 'valloric/youcompleteme'
-  Plug 'neoclide/coc.nvim', {'do': './install.sh'}
+  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
   Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+  Plug 'ruanyl/vim-sort-imports'
   Plug 'sheerun/vim-polyglot'
   Plug 'joukevandermaas/vim-ember-hbs'
+  Plug 'evanleck/vim-svelte'
 " 'should-be-standard' functionality
   Plug 'danro/rename.vim'
-  Plug 'roxma/vim-paste-easy'
+  " Plug 'roxma/vim-paste-easy' " not compatible with coc.nvim :(
   Plug 'scrooloose/nerdcommenter'
   Plug 'jiangmiao/auto-pairs'
   Plug 'tpope/vim-surround'
@@ -151,6 +153,7 @@ call plug#begin()
   Plug 'davidegx/ctrlp-smarttabs'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
   Plug 'junegunn/fzf.vim'
+  Plug 'skwp/greplace.vim'
 " git
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
@@ -168,6 +171,10 @@ let g:ctrlp_user_command =
 " Use smart tabs extensions with CTRL+P to open in a file if that tab is
 " already open
 let g:ctrlp_extensions = ['smarttabs']
+let g:ctrlp_match_window='bottom,btt,min:1,max:10,results:50'
+let g:ctrlp_custom_ignore={
+ \   'dir': '\v[\/](node_modules|i18n)'
+ \ }
 
 " Syntastic Settings
 let g:syntastic_javascript_checkers=['eslint']
@@ -195,6 +202,7 @@ map <leader>f <ESC>:Ag<CR>
 let g:NERDSpaceDelims = 1
 
 " Coc.nvim settings
+let g:coc_global_extensions = ['coc-tsserver', 'coc-html', 'coc-css', 'coc-ember', 'coc-emmet', 'coc-json']
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -236,4 +244,4 @@ set updatetime=300
 
 " allow hidden buffers to exist
 set hidden
-
+autocmd BufRead,BufNewFile *.md setlocal spell
