@@ -1,9 +1,12 @@
 [alias]
   s = status
   lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit
+  can = commit --amend --no-edit
 
 [core]
   editor = vim
+[includeIf "gitdir:~/dotfiles/"]
+  path = ~/.gitconfig-personal
 [includeIf "gitdir:~/Code/opensource/"]
   path = ~/.gitconfig-personal
 
