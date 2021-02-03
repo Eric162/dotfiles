@@ -149,8 +149,6 @@ call plug#begin()
   Plug 'jiangmiao/auto-pairs'
   Plug 'tpope/vim-surround'
 " search
-  Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'davidegx/ctrlp-smarttabs'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
   Plug 'junegunn/fzf.vim'
   Plug 'skwp/greplace.vim'
@@ -194,8 +192,16 @@ nnoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
 inoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
 vnoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
 
+" use fzf for Ctrl-P stuff
+nnoremap <C-p> :GFiles<CR>
+nnoremap <C-a> :Files<CR>
+nnoremap <C-b> :Buffers<CR>
 " Silver searcher async grep fuzzy finder search
-map <leader>f <ESC>:Ag<CR>
+map <leader>f <ESC>:Rg<CR>
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-ignore-vcs --no-heading --color=always --smart-case --hidden -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 
 " NERDCommenter settings
 " nnoremap <silent> <c-/> :call NERDComment(0, "toggle")<CR>
