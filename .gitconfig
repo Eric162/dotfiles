@@ -1,5 +1,6 @@
 [alias]
   s = status
+  last = log -1 HEAD
   lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit
   can = commit --amend --no-edit
 

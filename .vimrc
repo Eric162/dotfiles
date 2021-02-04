@@ -193,6 +193,7 @@ inoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
 vnoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
 
 " use fzf for Ctrl-P stuff
+let g:fzf_history_dir = '~/.fzf-history'
 nnoremap <C-p> :GFiles<CR>
 nnoremap <C-a> :Files<CR>
 nnoremap <C-b> :Buffers<CR>
