@@ -201,7 +201,7 @@ nnoremap <C-b> :Buffers<CR>
 map <leader>f <ESC>:Rg<CR>
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-ignore-vcs --no-heading --color=always --smart-case --hidden -- '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --no-ignore-vcs --no-heading --color=always --smart-case --hidden -g "!{node_modules/*,.git/*,i18n/*,.gradle/*,tmp/*,build/*,config/external/*,dist/*}" -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
 " NERDCommenter settings

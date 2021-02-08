@@ -11,6 +11,9 @@ alias vi='vim'
 alias gits="git s"
 alias gut="git"
 
+# tools
+alias files-per-dir="du -a | cut -d/ -f2 | sort | uniq -c | sort -nr"
+
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
