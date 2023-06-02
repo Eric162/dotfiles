@@ -20,7 +20,8 @@ parse_git_branch() {
 
 export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[1;30m\]\w\[\033[0;36m\] $(parse_git_branch)\[\033[00m\]$ '
 
-export VOLTA_HOME="/home/eshirley/.volta"
-grep --silent "$VOLTA_HOME/bin" <<< $PATH || export PATH="$VOLTA_HOME/bin:$PATH"
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs'
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+. "$HOME/.cargo/env"
