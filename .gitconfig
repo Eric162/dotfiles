@@ -7,13 +7,13 @@
 
 [core]
   editor = vim
+[includeIf "gitdir:~/"]
+  path = ~/.gitconfig-work
 [includeIf "gitdir:~/dotfiles/"]
   path = ~/.gitconfig-personal
 [includeIf "gitdir:~/Code/opensource/"]
   path = ~/.gitconfig-personal
 
-[includeIf "gitdir:~/Code/"]
-  path = ~/.gitconfig-work
 [push]
 	default = current
 [pull]
