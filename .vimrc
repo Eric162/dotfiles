@@ -3,20 +3,16 @@
 " check and use tmux's 24-bit color support
 " (see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more
 " information.)
-if (empty($TMUX))
-  if (has("nvim"))
-    " For Neovim 0.1.3 and 0.1.4 <https://github.com/neovim/neovim/pull/2198>
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
-  " For Neovim > 0.1.5 and Vim > patch 7.4.1799
-  " <https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162>
+if (has("nvim"))
+  " For Neovim 0.1.3 and 0.1.4 <https://github.com/neovim/neovim/pull/2198>
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
 
-  " Based on Vim patch 7.4.1770 (`guicolors` option)
-  " <https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd>
-  " <https://github.com/neovim/neovim/wiki/Following-HEAD#20160511>
-  if (has("termguicolors"))
-    set termguicolors
-  endif
+" Based on Vim patch 7.4.1770 (`guicolors` option)
+" <https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd>
+" <https://github.com/neovim/neovim/wiki/Following-HEAD#20160511>
+if (has("termguicolors"))
+  set termguicolors
 endif
 
 scriptencoding utf-8
@@ -118,122 +114,110 @@ endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+if (!has("nvim") {
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
 
 
-call plug#begin()
-" Theme & Visuals
-  Plug 'joshdick/onedark.vim'
-  Plug 'bling/vim-airline'
-" NERD
-  Plug 'scrooloose/nerdtree'
-  Plug 'jistr/vim-nerdtree-tabs'
-" Linting & Code Comlpetion
-  Plug 'scrooloose/syntastic'
-  Plug 'mtscout6/syntastic-local-eslint.vim'
-  " Plug 'valloric/youcompleteme'
-  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-  Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-  Plug 'ruanyl/vim-sort-imports'
-  Plug 'sheerun/vim-polyglot'
-  Plug 'joukevandermaas/vim-ember-hbs'
-  Plug 'evanleck/vim-svelte'
-" 'should-be-standard' functionality
-  Plug 'danro/rename.vim'
-  " Plug 'roxma/vim-paste-easy' " not compatible with coc.nvim :(
-  Plug 'scrooloose/nerdcommenter'
-  Plug 'jiangmiao/auto-pairs'
-  Plug 'tpope/vim-surround'
-" search
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-  Plug 'junegunn/fzf.vim'
-  Plug 'skwp/greplace.vim'
-" git
-  Plug 'airblade/vim-gitgutter'
-  Plug 'tpope/vim-fugitive'
-" To Try out
-call plug#end()
+  call plug#begin()
+  " Theme & Visuals
+    Plug 'joshdick/onedark.vim'
+    Plug 'bling/vim-airline'
+  " NERD
+    Plug 'scrooloose/nerdtree'
+    Plug 'jistr/vim-nerdtree-tabs'
+  " Linting & Code Comlpetion
+    Plug 'scrooloose/syntastic'
+    Plug 'mtscout6/syntastic-local-eslint.vim'
+    " Plug 'valloric/youcompleteme'
+    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+    Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+    Plug 'ruanyl/vim-sort-imports'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'joukevandermaas/vim-ember-hbs'
+    Plug 'evanleck/vim-svelte'
+  " 'should-be-standard' functionality
+    Plug 'danro/rename.vim'
+    " Plug 'roxma/vim-paste-easy' " not compatible with coc.nvim :(
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'tpope/vim-surround'
+  " search
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+    Plug 'junegunn/fzf.vim'
+    Plug 'skwp/greplace.vim'
+  " git
+    Plug 'airblade/vim-gitgutter'
+    Plug 'tpope/vim-fugitive'
+  " To Try out
+  call plug#end()
 
-"""""""""""""""""""
-" Plugin Settings "
-"""""""""""""""""""
+  """""""""""""""""""
+  " Plugin Settings "
+  """""""""""""""""""
 
-" CtrlP Settings
-" ignore files in gitignore
-let g:ctrlp_user_command =
-  \ ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-" Use smart tabs extensions with CTRL+P to open in a file if that tab is
-" already open
-let g:ctrlp_extensions = ['smarttabs']
-let g:ctrlp_match_window='bottom,btt,min:1,max:10,results:50'
-let g:ctrlp_custom_ignore={
- \   'dir': '\v[\/](node_modules|i18n)'
- \ }
+  " CtrlP Settings
+  " ignore files in gitignore
+  let g:ctrlp_user_command =
+    \ ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+  " Use smart tabs extensions with CTRL+P to open in a file if that tab is
+  " already open
+  let g:ctrlp_extensions = ['smarttabs']
+  let g:ctrlp_match_window='bottom,btt,min:1,max:10,results:50'
+  let g:ctrlp_custom_ignore={
+   \   'dir': '\v[\/](node_modules|i18n)'
+   \ }
 
-" Syntastic Settings
-let g:syntastic_javascript_checkers=['eslint']
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+  " Syntastic Settings
+  let g:syntastic_javascript_checkers=['eslint']
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 0
 
-" NERDTree
-let NERDTreeMapOpenInTab='t' " Open in new tab with 't' key
-let NERDTreeShowHidden=1 " Show hidden files and folders in NERDTree
-" <Ctrl+\> to toggle nerdtree
-nnoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
-inoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
-vnoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
+  " NERDTree
+  let NERDTreeMapOpenInTab='t' " Open in new tab with 't' key
+  let NERDTreeShowHidden=1 " Show hidden files and folders in NERDTree
+  " <Ctrl+\> to toggle nerdtree
+  nnoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
+  inoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
+  vnoremap <silent> <c-\> :NERDTreeTabsToggle<CR>
 
-" use fzf for Ctrl-P stuff
-let g:fzf_history_dir = '~/.fzf-history'
-nnoremap <C-p> :GFiles<CR>
-nnoremap <C-a> :Files<CR>
-nnoremap <C-b> :Buffers<CR>
-" Silver searcher async grep fuzzy finder search
-map <leader>f <ESC>:Rg<CR>
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-ignore-vcs --no-heading --color=always --smart-case --hidden -g "!{node_modules/*,.git/*,i18n/*,.gradle/*,tmp/*,build/*,config/external/*,dist/*}" -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(), <bang>0)
+  " use fzf for Ctrl-P stuff
+  let g:fzf_history_dir = '~/.fzf-history'
+  nnoremap <C-p> :GFiles<CR>
+  nnoremap <C-a> :Files<CR>
+  nnoremap <C-b> :Buffers<CR>
+  " Silver searcher async grep fuzzy finder search
+  map <leader>f <ESC>:Rg<CR>
+  command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \   'rg --column --line-number --no-ignore-vcs --no-heading --color=always --smart-case --hidden -g "!{node_modules/*,.git/*,i18n/*,.gradle/*,tmp/*,build/*,config/external/*,dist/*}" -- '.shellescape(<q-args>), 1,
+    \   fzf#vim#with_preview(), <bang>0)
 
-" NERDCommenter settings
-" nnoremap <silent> <c-/> :call NERDComment(0, "toggle")<CR>
-let g:NERDSpaceDelims = 1
+  " NERDCommenter settings
+  " nnoremap <silent> <c-/> :call NERDComment(0, "toggle")<CR>
+  let g:NERDSpaceDelims = 1
 
-" Coc.nvim settings
-let g:coc_global_extensions = ['coc-tsserver', 'coc-html', 'coc-css', 'coc-ember', 'coc-emmet', 'coc-json']
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  " Coc.nvim settings
+  let g:coc_global_extensions = ['coc-tsserver', 'coc-html', 'coc-css', 'coc-ember', 'coc-emmet', 'coc-json']
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" " Use <c-space> to trigger completion.
-" inoremap <silent><expr> <c-space> coc#refresh()
-
-" " Use K to show documentation in preview window
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-" function! s:show_documentation()
-  " if (index(['vim','help'], &filetype) >= 0)
-    " execute 'h '.expand('<cword>')
-  " else
-    " call CocAction('doHover')
-  " endif
-" endfunction
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+}
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -243,12 +227,14 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-" Put swap files in a tmp directory instead of next to the file
-set directory=~/.vim/tmp/swap
+" No swap files
+set noswapfile
 
 " set updatetime to higher interval (lower number) original is 4000
-set updatetime=300
+set updatetime=100
 
 " allow hidden buffers to exist
 set hidden
+" enable spell check in markdown files
 autocmd BufRead,BufNewFile *.md setlocal spell
+
