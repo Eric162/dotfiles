@@ -110,7 +110,52 @@ config.keys = {
   {
     key = 'x',
     mods = 'LEADER',
-    action = wezterm.action.CloseCurrentTab { domain = 'DefaultDomain', confirm = false },
+    action = wezterm.action.CloseCurrentPane { domain = 'DefaultDomain', confirm = false },
+  },
+  {
+    key = ',',
+    mods = 'LEADER',
+    action = wezterm.action.PromptInputLine {
+      description = 'Enter new name for tab',
+      action = wezterm.action_callback(function(window, pane, line)
+        -- line will be `nil` if they hit escape without entering anything
+        -- An empty string if they just hit enter
+        -- Or the actual line of text they wrote
+        if line then
+          window:active_tab():set_title(line)
+        end
+      end),
+    },
+  },
+  {
+    key = 'n',
+    mods = 'LEADER',
+    action = wezterm.action.ActivateTabRelative(1),
+  },
+  {
+    key = 'p',
+    mods = 'LEADER',
+    action = wezterm.action.ActivateTabRelative(-1),
+  },
+  {
+    key = 'LeftArrow',
+    mods = 'LEADER',
+    action = wezterm.action.ActivatePaneDirection 'Left',
+  },
+  {
+    key = 'RightArrow',
+    mods = 'LEADER',
+    action = wezterm.action.ActivatePaneDirection 'Right',
+  },
+  {
+    key = 'UpArrow',
+    mods = 'LEADER',
+    action = wezterm.action.ActivatePaneDirection 'Up',
+  },
+  {
+    key = 'DownArrow',
+    mods = 'LEADER',
+    action = wezterm.action.ActivatePaneDirection 'Down',
   },
   -- Send "CTRL-A" to the terminal when pressing CTRL-A, CTRL-A
   {
