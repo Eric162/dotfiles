@@ -15,7 +15,7 @@ if [ which brew ]; then
 
   fi
 
-  brew install rg fd tmux neovim
+  brew install rg fd tmux neovim wezterm
 
   # scmpuff (git files numbered, gs/gd/gc etc)
   brew install scmpuff
@@ -28,6 +28,7 @@ ln -sf "$(pwd)/.gitconfig-personal" $HOME/
 ln -sf "$(pwd)/.vimrc" $HOME/
 ln -sf "$(pwd)/.tmux.conf" $HOME/
 ln -sf "$(pwd)/.bash_profile" $HOME/
+ln -sf "$(pwd)/.wezterm.lua" $HOME/
 
 # make vim folders
 mkdir $HOME/.vim/
