@@ -167,5 +167,15 @@ config.keys = {
   },
 }
 
+-- Tabs nav by id
+for i = 1, 9 do
+  -- LEADER + number to activate that tab
+  table.insert(config.keys, {
+    key = tostring(i),
+    mods = 'LEADER',
+    action = wezterm.action.ActivateTab(i - 1),
+  })
+end
+
 -- and finally, return the configuration to wezterm
 return config
