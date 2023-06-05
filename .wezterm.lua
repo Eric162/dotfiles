@@ -92,25 +92,11 @@ end);
 -- timeout_milliseconds defaults to 1000 and can be omitted
 config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
 config.keys = {
-  {
-    key = '|',
-    mods = 'LEADER|SHIFT',
-    action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
-  },
-  {
-    key = '-',
-    mods = 'LEADER',
-    action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
-  },
+  -- Tabs
   {
     key = 'c',
     mods = 'LEADER',
     action = wezterm.action.SpawnTab 'CurrentPaneDomain',
-  },
-  {
-    key = 'x',
-    mods = 'LEADER',
-    action = wezterm.action.CloseCurrentPane { domain = 'DefaultDomain', confirm = false },
   },
   {
     key = ',',
@@ -126,6 +112,22 @@ config.keys = {
         end
       end),
     },
+  },
+  {
+  -- Panes
+    key = '|',
+    mods = 'LEADER|SHIFT',
+    action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+  },
+  {
+    key = '-',
+    mods = 'LEADER',
+    action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+  },
+  {
+    key = 'x',
+    mods = 'LEADER',
+    action = wezterm.action.CloseCurrentPane { domain = 'DefaultDomain', confirm = false },
   },
   {
     key = 'n',
