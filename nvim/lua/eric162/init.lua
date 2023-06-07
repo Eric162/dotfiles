@@ -1,1 +1,3 @@
-print("hello from eric162")
+require('eric162.set')
+require('eric162.remap')
+
