@@ -44,8 +44,6 @@ nmap gO O<ESC>j
 
 " Leader-w to close a tab
 nnoremap <leader>w :tabclose<CR>
-nnoremap <leader><left> :tabprevious<CR>
-nnoremap <leader><right> :tabnext<CR>
 
 " keep the cursor centered
 nnoremap j jzz

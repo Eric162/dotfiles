@@ -27,4 +27,11 @@ opt.updatetime = 50
 opt.ic = true
 opt.smartcase = true -- case sensitive search when uppercase letters typed
 
+-- Highlight current row in insert mode
+vim.cmd("autocmd InsertEnter * set cul")
+vim.cmd("autocmd InsertLeave * set nocul")
+
+-- spell checking in markdown files
+vim.cmd("autocmd BufRead,BufNewFile *.md setlocal spell")
+
 vim.g.mapleader = " "
