@@ -160,6 +160,26 @@ config.keys = {
         action = wezterm.action.ActivatePaneDirection 'Down',
     },
     {
+        key = 'h',
+        mods = 'LEADER',
+        action = wezterm.action.ActivatePaneDirection 'Left',
+    },
+    {
+        key = 'l',
+        mods = 'LEADER',
+        action = wezterm.action.ActivatePaneDirection 'Right',
+    },
+    {
+        key = 'j',
+        mods = 'LEADER',
+        action = wezterm.action.ActivatePaneDirection 'Up',
+    },
+    {
+        key = 'k',
+        mods = 'LEADER',
+        action = wezterm.action.ActivatePaneDirection 'Down',
+    },
+    {
         key = 'z',
         mods = 'LEADER',
         action = wezterm.action.TogglePaneZoomState,
