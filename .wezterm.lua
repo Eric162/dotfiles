@@ -170,12 +170,12 @@ config.keys = {
         action = wezterm.action.ActivatePaneDirection 'Right',
     },
     {
-        key = 'j',
+        key = 'k',
         mods = 'LEADER',
         action = wezterm.action.ActivatePaneDirection 'Up',
     },
     {
-        key = 'k',
+        key = 'j',
         mods = 'LEADER',
         action = wezterm.action.ActivatePaneDirection 'Down',
     },
