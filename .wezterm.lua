@@ -14,7 +14,7 @@ end
 
 -- Colors
 local my_dimmed_monokai = wezterm.get_builtin_color_schemes()['DimmedMonokai']
-my_dimmed_monokai.foreground = 'gray'
+my_dimmed_monokai.foreground = '999'
 my_dimmed_monokai.background = '#1B1B1B' -- 1E1E1E originally
 my_dimmed_monokai.cursor_bg = 'grey'
 my_dimmed_monokai.cursor_border = my_dimmed_monokai.cursor_bg
