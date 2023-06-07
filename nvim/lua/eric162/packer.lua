@@ -59,13 +59,17 @@ return require('packer').startup(function(use)
     use 'tpope/vim-fugitive'
     use 'airblade/vim-gitgutter'
 
-    use {
+    use({
         'nvim-tree/nvim-tree.lua',
         requires = {
             -- Optional
             'nvim-tree/nvim-web-devicons',
-        }
-    }
+        },
+        config = function()
+            -- empty setup using defaults
+            require("nvim-tree").setup({})
+        end
+    })
 
 
     -- Automatically set up your configuration after cloning packer.nvim

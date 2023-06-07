@@ -1,4 +1,4 @@
-vim.keymap.set("n", "<leader>w", ":tabclose")
+vim.keymap.set("n", "<leader>w", ":tabclose <CR>")
 
 
 vim.keymap.set("n", "j", "jzz")
