@@ -64,6 +64,8 @@ config.colors = {
 }
 
 config.tab_bar_at_bottom = true
+-- disable ligatures
+config.harfbuzz_features = {"calt=0", "clig=0", "liga=0"}
 -- config.cursor_blink_rate = 800
 
 --  right status bar display date/time
