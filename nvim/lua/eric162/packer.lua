@@ -21,21 +21,31 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope.nvim', tag = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
-    use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
-    use('nvim-treesitter/playground')
+    use({ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' })
+    use 'nvim-treesitter/playground'
+
+    use({
+        'williamboman/mason.nvim',
+        run = function()
+            pcall(vim.cmd, 'MasonUpdate')
+        end,
+    })
+
+    use({
+        "jay-babu/mason-null-ls.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        requires = {
+            { "jose-elias-alvarez/null-ls.nvim" },
+        },
+    })
+
     use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
         requires = {
             -- LSP Support
-            { 'neovim/nvim-lspconfig' }, -- Required
-            {
-                -- Optional
-                'williamboman/mason.nvim',
-                run = function()
-                    pcall(vim.cmd, 'MasonUpdate')
-                end,
-            },
+            { 'neovim/nvim-lspconfig' },             -- Required
+
             { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
             -- Autocompletion
@@ -65,7 +75,7 @@ return require('packer').startup(function(use)
         'nvim-tree/nvim-tree.lua',
         requires = {
             -- Optional
-            'nvim-tree/nvim-web-devicons',
+            { 'nvim-tree/nvim-web-devicons' },
         },
         config = function()
             -- empty setup using defaults
