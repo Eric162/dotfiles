@@ -2,8 +2,9 @@ local lsp = require('lsp-zero').preset({})
 
 lsp.ensure_installed({
     'tsserver',
-    'rust-analyzer',
-    'lua-language-server',
+    'eslint',
+    -- 'rust-analyzer',
+    -- 'lua-language-server',
     'svelte',
 
     -- TODO make sure these linters are installed
