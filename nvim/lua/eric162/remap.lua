@@ -17,3 +17,7 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("x", "<leader>p", [["_dP_dP]])
 
 vim.keymap.set("n", "Q", "<nop>")
+
+-- next greatest remap ever : asbjornHaland (TODO explain this)
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]])
