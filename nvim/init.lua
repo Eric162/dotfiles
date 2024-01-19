@@ -702,5 +702,18 @@ cmp.setup {
   },
 }
 
+local highlight = {
+  "CursorColumn",
+  "Whitespace",
+}
+
+require("ibl").setup {
+  indent = { highlight = highlight, char = "" },
+  whitespace = {
+    highlight = highlight,
+    remove_blankline_trail = false,
+  },
+  scope = { enabled = false },
+}
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
