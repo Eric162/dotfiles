@@ -75,6 +75,8 @@ require('lazy').setup({
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+
+  -- undo tree
   'mbbill/undotree',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
@@ -354,8 +356,6 @@ vim.keymap.set("n", "{", "{zz")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
--- format a file
-vim.keymap.set("n", "<leader>p", ":Format <CR>")
 vim.keymap.set("n", "Q", "<nop>")
 
 -- next greatest remap ever : asbjornHaland (TODO explain this)
@@ -549,6 +549,7 @@ local on_attach = function(_, bufnr)
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader>ff', vim.lsp.buf.format, '[F]ormat [F]ile')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
