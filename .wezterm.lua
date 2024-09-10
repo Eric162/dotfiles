@@ -37,6 +37,7 @@ config.color_scheme = 'DimmedMonokai'
 -- config.color_scheme = 'Equilibrdium Gray Dark (base16)'
 -- config.color_scheme = 'Terminix Dark (Gogh)' -- purple synlinks -> pink
 
+config.font = wezterm.font_with_fallback({ 'Menlo', 'Roboto Mono', 'JetBrains Mono', 'Monaco', 'monospace' })
 
 -- Tab bar
 config.window_frame = {
@@ -65,7 +66,7 @@ config.colors = {
 
 config.tab_bar_at_bottom = true
 -- disable ligatures
-config.harfbuzz_features = {"calt=0", "clig=0", "liga=0"}
+config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 -- config.cursor_blink_rate = 800
 
 --  right status bar display date/time
