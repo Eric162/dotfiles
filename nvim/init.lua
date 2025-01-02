@@ -96,6 +96,11 @@ require('lazy').setup({
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
+
+    -- {
+    --   'nvimtools/none-ls.nvim',
+    --   event = "VeryLazy",
+    -- }
   },
 
   {
@@ -122,6 +127,12 @@ require('lazy').setup({
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
     },
+  },
+
+  -- LLM
+  {
+    'github/copilot.vim',
+    event = "VeryLazy",
   },
 
   {
@@ -266,6 +277,12 @@ require('lazy').setup({
         end,
       },
     },
+  },
+  {
+    dir = "~/Code/opensource/neoscopes",
+    name = "neoscopes",
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    config = true,
   },
 
   {
@@ -457,14 +474,46 @@ local function telescope_live_grep_open_files()
     prompt_title = 'Live Grep in Open Files'
   }
 end
+
+
+require("neoscopes").setup({
+  enable_scopes_from_code_workspaces = true
+})
+
+local scopes = require("neoscopes")
+for k, _ in pairs(scopes.get_all_scopes()) do
+  print(k)
+  if k:match("^code_workspace:") then
+    scopes.set_current(k)
+  end
+end
+
+local function get_scopes_dirs()
+  if scopes.get_current_scope() ~= nil then
+    return scopes.get_current_paths()
+  end
+end
+
+local function find_files()
+  require('telescope.builtin').find_files {
+    search_dirs = get_scopes_dirs()
+  }
+end
+
+local function live_grep()
+  require('telescope.builtin').live_grep {
+    search_dirs = get_scopes_dirs()
+  }
+end
+
 vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = '[S]earch [/] in Open Files' })
 vim.keymap.set('n', '<leader>ss', require('telescope.builtin').builtin, { desc = '[S]earch [S]elect Telescope' })
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sf', find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>rg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sg', live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>rg', live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
@@ -582,6 +631,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
+  -- nmap('<leader>wf', vim.lsp.buf., '[W]orkspace [F]ind')
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -633,10 +683,53 @@ local servers = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-      -- diagnostics = { disable = { 'missing-fields' } },
+      diagnostics = { disable = { 'missing-fields' } },
     },
   },
 }
+
+-- null-ls/prettier setup
+-- local null_ls = require("null-ls")
+-- local lSsources = {
+--   null_ls.builtins.formatting.prettier.with({
+--     filetypes = {
+--       "javascript",
+--       "typescript",
+--       "css",
+--       "scss",
+--       "html",
+--       "json",
+--       "yaml",
+--       "markdown",
+--       "graphql",
+--       "md",
+--       "txt",
+--     },
+--     only_local = "node_modules/.bin",
+--   }),
+-- }
+--
+-- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+-- require("null-ls").setup({
+--   sources = lSsources,
+--   on_attach = function(client, bufnr)
+--     if client.supports_method("textDocument/formatting") then
+--       vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+--       vim.api.nvim_create_autocmd("BufWritePre", {
+--         group = augroup,
+--         buffer = bufnr,
+--         callback = function()
+--           vim.lsp.buf.format({
+--             bufnr = bufnr,
+--             filter = function(client)
+--               return client.name == "null-ls"
+--             end,
+--           })
+--         end,
+--       })
+--     end
+--   end,
+-- })
 
 -- Setup neovim lua configuration
 require('neodev').setup()
@@ -728,5 +821,7 @@ require("ibl").setup {
   },
   scope = { enabled = false },
 }
+
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
