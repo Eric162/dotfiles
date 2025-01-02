@@ -6,7 +6,9 @@
   changed = diff --stat --color
 
 [core]
-  editor = vim
+  editor = nvim
+  pager = less -F
+	fsmonitor = true
 [includeIf "gitdir:~/"]
   path = ~/.gitconfig-work
 [includeIf "gitdir:~/dotfiles/"]
@@ -22,3 +24,5 @@
 	prune = true
 [diff]
 	colorMoved = zebra
+[rerere]
+	enabled = true

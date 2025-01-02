@@ -325,7 +325,7 @@ vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 
 -- Decrease update time
-vim.o.updatetime = 200
+vim.o.updatetime = 100
 vim.o.timeoutlen = 250
 
 -- Set completeopt to have a better completion experience
@@ -354,6 +354,8 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 
 vim.keymap.set("n", "<leader>w", ":tabclose <CR>")
 
+-- Exit terminal mode with EscEsc
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
 vim.keymap.set("n", "j", "jzz")
 vim.keymap.set("n", "k", "kzz")
