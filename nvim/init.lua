@@ -226,6 +226,9 @@ require('lazy').setup({
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
+      sections = {
+        lualine_c = {{'filename', path = 1}},
+      },
       options = {
         icons_enabled = false,
         theme = 'onedark',
