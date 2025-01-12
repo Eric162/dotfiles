@@ -445,7 +445,28 @@ vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+
+local action_state = require('telescope.actions.state')
+local actions = require('telescope.actions')
+local mybuffers = function(opts)
+  opts = opts or {}
+  opts.attach_mappings = function(prompt_bufnr, map)
+    local delete_buf = function()
+      local selection = action_state.get_selected_entry()
+      -- actions.close(prompt_bufnr)
+      actions.delete_buffer(prompt_bufnr)
+      -- vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+    end
+    map('n', 'D', delete_buf)
+    return true
+  end
+  -- define more opts here
+  -- opts.show_all_buffers = true
+  opts.sort_lastused = true
+  -- opts.shorten_path = false
+  require('telescope.builtin').buffers(opts)
+end
+vim.keymap.set('n', '<leader><space>', mybuffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
