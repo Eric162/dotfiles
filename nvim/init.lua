@@ -401,6 +401,27 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+    cache_picker = {
+      num_pickers = 50,
+      limit_entries = 10000,
+    },
+    path_display = {
+      filename_first = {
+        reverse_directories = false
+      },
+    },
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '--hidden',
+      '--glob', -- this flag allows you to hide exclude these files and folders from your search 👇
+      '!{**/.git/*,**/node_modules/*,**/package-lock.json,**/yarn.lock}',
+    },
   },
 }
 
@@ -492,6 +513,7 @@ vim.keymap.set('n', '<leader>rg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>sp', require('telescope.builtin').pickers, { desc = '[S]earch [P]ickers' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -586,7 +608,10 @@ local on_attach = function(_, bufnr)
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-  nmap('<leader>ff', vim.lsp.buf.format, '[F]ormat [F]ile')
+  nmap('<leader>ff', function()
+      vim.lsp.buf.format { timeout_ms = 2000 }
+    end,
+    '[F]ormat [F]ile')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -684,6 +709,7 @@ local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
+  automatic_installation = true,
 }
 
 mason_lspconfig.setup_handlers {
