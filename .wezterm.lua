@@ -65,21 +65,89 @@ config.colors = {
     }
 }
 
+config.native_macos_fullscreen_mode = true
 config.tab_bar_at_bottom = true
 -- disable ligatures
 config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 -- config.cursor_blink_rate = 800
 
+-- Cache for git branches per pane (pane_id -> {cwd=..., branch=...})
+local git_branch_cache = {}
+
+-- Helper to extract path from file:// URI object
+local function uri_to_path(cwd_uri)
+    if not cwd_uri then
+        return nil
+    end
+    -- Handle URL object (has file_path property)
+    if type(cwd_uri) == 'userdata' then
+        return cwd_uri.file_path
+    end
+    if type(cwd_uri) == 'table' and cwd_uri.file_path then
+        return cwd_uri.file_path
+    end
+    -- String format: file://hostname/path
+    if type(cwd_uri) == 'string' then
+        return cwd_uri:gsub('file://[^/]*', '')
+    end
+    return nil
+end
+
+-- Update git branch cache for a pane (called from update-status)
+local function update_git_branch_cache(pane)
+    local cwd_uri = pane:get_current_working_dir()
+    local cwd = uri_to_path(cwd_uri)
+    local pane_id = pane:pane_id()
+
+    if cwd then
+        local success, stdout, stderr = wezterm.run_child_process({
+            'git', '-C', cwd, 'rev-parse', '--abbrev-ref', 'HEAD'
+        })
+        local branch = nil
+        if success and stdout then
+            branch = stdout:gsub('%s+', '')
+            if #branch == 0 then
+                branch = nil
+            end
+        end
+        git_branch_cache[pane_id] = { cwd = cwd, branch = branch }
+    end
+end
+
+-- Tab title: show git branch if available, otherwise process name
+-- Respects manually set tab titles (via LEADER + ,)
+wezterm.on('format-tab-title', function(tab, tabs, panes, cfg, hover, max_width)
+    local tab_number = tab.tab_index + 1 -- 1-indexed for display
+    local title
+
+    -- Check if tab has a manually set title
+    local tab_title = tab.tab_title
+    if tab_title and #tab_title > 0 then
+        title = tab_title
+    else
+        -- Check cache for git branch
+        local pane_id = tab.active_pane.pane_id
+        local cached = git_branch_cache[pane_id]
+        if cached and cached.branch then
+            title = cached.branch
+        else
+            -- Fall back to default: process name (basename only)
+            local process = tab.active_pane.foreground_process_name or tab.active_pane.title or ''
+            title = process:gsub('.*/', '')
+        end
+    end
+
+    return tab_number .. ': ' .. title
+end)
+
 --  right status bar display date/time
 wezterm.on("update-status", function(window, pane)
-    -- demonstrates shelling out to get some external status.
-    -- wezterm will parse escape sequences output by the
-    -- child process and include them in the status area, too.
-    -- local success, date, stderr = wezterm.run_child_process({ "date" });
+    -- Update git branch cache for tab title
+    update_git_branch_cache(pane)
 
     -- However, if all you need is to format the date/time, then:
-    date = wezterm.strftime("  %A %b %d  ");
-    date_time = wezterm.strftime("  %H:%M:%S  ");
+    local date = wezterm.strftime("  %A %b %d  ");
+    local date_time = wezterm.strftime("  %H:%M:%S  ");
 
     -- Make it italic and underlined
     window:set_right_status(wezterm.format({
