@@ -1,5 +1,6 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
+local act = wezterm.action
 
 -- This table will hold the configuration.
 local config = {}
@@ -193,6 +194,8 @@ config.keys = {
         mods = 'LEADER|CTRL',
         action = wezterm.action.SendKey { key = 'a', mods = 'CTRL' },
     },
+    -- Make Command-Backspace equivalent to Ctrl-u; kill-line
+    { key = 'Backspace', mods = 'CMD', action = act { SendString = '\x15' } },
 }
 
 -- Tabs nav by id
