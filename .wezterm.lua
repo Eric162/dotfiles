@@ -276,7 +276,7 @@ for i = 1, 9 do
     })
 end
 
-config.scrollback_lines = 500000
+config.scrollback_lines = 200000
 
 -- and finally, return the configuration to wezterm
 return config
